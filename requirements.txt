@@ -1,0 +1,7 @@
+numpy-1.24.0
+pandas-1.5.2
+matplotlib-3.6.2
+statsmodels-0.13.5
+scikit-learn-1.2.0
+tensorflow-2.11.0
+pmdarima-2.0.2
