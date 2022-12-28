@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # run_bool('BNBUSDT.csv')
     # run_bool('ETHUSDT.csv')
     #
-    run_continuo('BTCUSDT.csv')
+    run_continuo('data/filtered/BTCUSDT.csv')
     # run_continuo('BNBUSDT.csv')
     # run_continuo('ETHUSDT.csv')
 
