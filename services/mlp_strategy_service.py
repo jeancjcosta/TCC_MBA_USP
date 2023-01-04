@@ -52,9 +52,9 @@ class MLPStrategyService:
             df['target'] = df['close'].shift(-1)
         return df
 
-    def test(self, data):
+    def test(self, data, cripto):
         df = pd.DataFrame(data, columns=["open", "high", "low", "close", "volume", "timestamp"])
-        df = self.preprocess(df)
+        df = self.preprocess(df, continuo=True)
         df_x = df.drop(columns=["volume", "timestamp"])
         size = int(df_x.shape[0]*0.8)
         train_x = df_x.iloc[:size, :-1]
@@ -68,7 +68,11 @@ class MLPStrategyService:
         train_x['close'].plot(legend=True, label='Treino')
         test_x['close'].plot(legend=True, label='Teste')
         pred['pred'].plot(legend=True, label='Previsões MLP')
-        plt.show()
+        plt.xlabel('Horas')
+        plt.ylabel('Preço (USD)')
+        plt.savefig('data/plots/graph_pred_mlp_' + cripto + '.png')
+        # plt.show()
+        plt.clf()
         return 1
 
 service = MLPStrategyService()

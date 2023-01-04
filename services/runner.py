@@ -22,11 +22,11 @@ class Runner():
     def run_random(self, candles):
         return service_random.run(candles)
 
-    def run_lstm_test(self, candles):
-        return service_lstm.test(candles)
+    def run_lstm_test(self, candles, cripto):
+        return service_lstm.test(candles, cripto)
 
-    def run_mlp_test(self, candles):
-        return service_mlp.test(candles)
+    def run_mlp_test(self, candles, cripto):
+        return service_mlp.test(candles, cripto)
 
     def run_arima_test(self, candles):
         return service_arima.test(candles)
