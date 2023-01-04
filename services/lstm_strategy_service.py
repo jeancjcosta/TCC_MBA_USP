@@ -92,7 +92,7 @@ class LSTMStrategyService:
         return train_x_ts, train_y_ts
 
 
-    def test(self, data):
+    def test(self, data, cripto):
         batch_size = 40
         epochs = 70
         learning_rate = 0.01
@@ -115,7 +115,11 @@ class LSTMStrategyService:
         treino['close'].plot(legend=True, label='Treino')
         teste['close'].plot(legend=True, label='Teste')
         pred[0].plot(legend=True, label='Previsões LSTM', figsize=(8, 6))
-        plt.show()
+        plt.xlabel('Horas')
+        plt.ylabel('Preço (USD)')
+        plt.savefig('data/plots/graph_pred_lstm_' + cripto + '.png')
+        # plt.show()
+        plt.clf()
 
         return 1
 

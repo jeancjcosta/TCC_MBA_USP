@@ -69,7 +69,7 @@ def run_random_strategy():
 
 def continuo_metrics():
     for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
-        print(src)
+        print(src + ' CONTINUO')
         df = pd.read_csv('data/processed/MLP_CONT_'+src+'.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_continuo', 'profit_continuo']]
         print(metrics.classification_report_continuo(df))
@@ -82,7 +82,7 @@ def continuo_metrics():
 
 def boolean_metrics():
     for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
-        print(src)
+        print(src + ' BOOLEAN')
         df = pd.read_csv('data/processed/MLP_BOOL_'+src+'.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_boolean', 'profit_boolean']]
         print(metrics.classification_report_boolean(df))
@@ -92,11 +92,21 @@ def boolean_metrics():
         print("")
 
 
+def generate_test_graphs():
+    for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
+        df = pd.read_csv('data/processed/MLP_BOOL_' + src + '.csv')[
+            ['open', 'high', 'low', 'close', 'volume', 'timestamp']]
+        runner.run_lstm_test(df.values, src)
+        runner.run_mlp_test(df.values, src)
+
+
 if __name__ == '__main__':
     inicio = time.time()
 
-    continuo_metrics()
-    boolean_metrics()
+    generate_test_graphs()
+    # continuo_metrics()
+    # boolean_metrics()
+
 
     # a = abs(359.83-1312.55)/359.83 + abs(1312.45-2706.15)/1312.45 + abs(2706.15-3000.61)/2706.15 + \
     #     abs(3000.62-2686.94)/3000.62 + abs(2686.94-1941.90)/2686.94 + abs(1941.90-1328.72)/1941.90
