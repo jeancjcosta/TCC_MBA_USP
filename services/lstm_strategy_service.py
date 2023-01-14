@@ -33,9 +33,8 @@ class LSTMStrategyService:
         model.compile(loss='mae', metrics=["mean_squared_error"], optimizer=keras.optimizers.Adam(learning_rate=learning_rate))
         model.fit(train_x[:-1], train_y[:-1], epochs=epochs, batch_size=batch_size, verbose=0, shuffle=False, callbacks=[callbacklr])
         pred = model.predict(train_x[-1:])[0][0]
-        aux = self.last
-        self.last = pred
-        return pred, pred
+
+        return round(pred, 0), round(pred, 0)
 
     def run_continuo(self, data):
         batch_size = 40
@@ -68,7 +67,7 @@ class LSTMStrategyService:
     def model_LSTM(self, features, time_steps, continuo=False):
         modelLSTM = keras.models.Sequential()
         modelLSTM.add(keras.layers.InputLayer((time_steps, features)))
-        modelLSTM.add(keras.layers.LSTM(128, activation='relu', return_sequences=True))
+        modelLSTM.add(keras.layers.LSTM(256, activation='relu', return_sequences=True))
         modelLSTM.add(keras.layers.LSTM(128, activation='relu', return_sequences=True))
         modelLSTM.add(keras.layers.LSTM(64, activation='relu'))
         if continuo:
