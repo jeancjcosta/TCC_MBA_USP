@@ -22,7 +22,8 @@ class Metrics:
         return arr.min(), m - s * t_crit / np.sqrt(len(arr)), m, m + s * t_crit / np.sqrt(len(arr)), arr.max()
 
     def calc_sharpe(self, arr) -> int:
-        return np.array(arr).mean() / np.array(arr).std()
+        # multiplicado por 100 para ter uma melhor apresentação do resultado.
+        return 100 * np.array(arr).mean() / np.array(arr).std()
 
     def calc_sharpe_confidence(self, arr, sample_size=240) -> tuple[Any, Any, Any, Any, Any]:
         sharp_array = []

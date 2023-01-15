@@ -105,6 +105,12 @@ def run_continuo(src):
     new_df = pd.DataFrame(process, columns=['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_continuo', 'profit_continuo'])
     new_df.to_csv("LSTM_CONT_" + src, sep=',', index=False)
 
+def run_test(src):
+    df = pd.read_csv('data/filtered/' + src + '.csv')[['open', 'high', 'low', 'close', 'volume', 'timestamp']]
+    arr = df.values
+    size = 500
+    runner.run_lstm_test(arr[:size], src)
+
 
 if __name__ == '__main__':
     inicio = time.time()
@@ -113,10 +119,13 @@ if __name__ == '__main__':
     # run_bool('BNBUSDT.csv')
     # run_bool('ETHUSDT.csv')
     #
-    run_continuo('data/filtered/BTCUSDT.csv')
+    # run_continuo('data/filtered/BTCUSDT.csv')
     # run_continuo('BNBUSDT.csv')
     # run_continuo('ETHUSDT.csv')
 
+    run_test('BTCUSDT')
+    run_test('BNBUSDT')
+    run_test('ETHUSDT')
 
 
     fim = time.time()

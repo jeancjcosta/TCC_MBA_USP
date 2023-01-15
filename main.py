@@ -65,10 +65,10 @@ def run_random_strategy():
         print("")
 
 
-def continuo_metrics():
+def continuo_metrics(model):
     for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
         print(src + ' CONTINUO')
-        df = pd.read_csv('data/processed/LSTM_CONT_'+src+'.csv')[
+        df = pd.read_csv('data/processed/' + model + '_CONT_' + src + '.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_continuo', 'profit_continuo']]
         print(metrics.classification_report_continuo(df))
         print("accuracy", metrics.accuracy_continuo(df))
@@ -78,10 +78,10 @@ def continuo_metrics():
         print("")
 
 
-def boolean_metrics():
+def boolean_metrics(model):
     for src in ['BTCUSDT']:
         print(src + ' BOOLEAN')
-        df = pd.read_csv('data/processed/LSTM_BOOL_'+src+'.csv')[
+        df = pd.read_csv('data/processed/' + model + '_BOOL_' + src + '.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_boolean', 'profit_boolean']]
         df['pred_boolean'] = df['pred_boolean'].apply(lambda x: round(x, 0))
         print(metrics.classification_report_boolean(df))
@@ -104,8 +104,8 @@ if __name__ == '__main__':
 
     # run the strategies over database and generate the graphs for test and prediction
     # generate_test_graphs()
-    continuo_metrics()
-    boolean_metrics()
+    continuo_metrics("LSTM")
+    boolean_metrics("LSTM")
     # run_random_strategy()
 
     # a = abs(359.83-1312.55)/359.83 + abs(1312.45-2706.15)/1312.45 + abs(2706.15-3000.61)/2706.15 + \

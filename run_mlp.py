@@ -73,21 +73,22 @@ def run_continuo():
         new_df = pd.DataFrame(process, columns=['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_continuo', 'profit_continuo'])
         new_df.to_csv("MLP_CONT_" + src, sep=',', index=None)
 
+def run_test(src):
+    df = pd.read_csv('data/filtered/' + src + '.csv')[['open', 'high', 'low', 'close', 'volume', 'timestamp']]
+    arr = df.values
+    size = 500
+    runner.run_mlp_test(arr[:size], src)
+
 
 if __name__ == '__main__':
     inicio = time.time()
 
     # run_bool()
-    run_continuo()
+    # run_continuo()
 
-    # print("iter", j)
-    # print("Acurácia", right/count)
-    # print("certos", right)
-    # print("errados", count-right)
-    # print("total", count)
-    # print("profit", profit)
-    # print("max_profit", max_profit)
-    # print("")
+    run_test('BTCUSDT')
+    run_test('BNBUSDT')
+    run_test('ETHUSDT')
 
     fim = time.time()
     print('Tempo de execução:', fim - inicio)
