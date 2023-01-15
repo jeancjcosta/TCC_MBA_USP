@@ -47,17 +47,15 @@ def run_random_strategy():
             right = 0
             profit = 0
             max_profit = 0
-            for i in range(size, df.shape[0]):
-                res = runner.run_lstm(arr[i - size:i])
+            for i in range(size, df.shape[0]-1):
+                res = runner.run_random(arr[i - size:i])
                 if res == 1 and arr[i + 1][0] < arr[i + 1][3]:
                     right += 1
                 if res == 1:
                     count += 1
                     profit += (arr[i + 1][3] - arr[i + 1][0]) / arr[i + 1][0]
-                    print(i, res, profit)
                     max_profit = max(profit, max_profit)
-                else:
-                    print(i, res, profit)
+
 
             profit_arr.append(profit)
             accuracy_arr.append(right / count)
@@ -70,7 +68,7 @@ def run_random_strategy():
 def continuo_metrics():
     for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
         print(src + ' CONTINUO')
-        df = pd.read_csv('data/processed/MLP_CONT_'+src+'.csv')[
+        df = pd.read_csv('data/processed/LSTM_CONT_'+src+'.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_continuo', 'profit_continuo']]
         print(metrics.classification_report_continuo(df))
         print("accuracy", metrics.accuracy_continuo(df))
@@ -81,10 +79,11 @@ def continuo_metrics():
 
 
 def boolean_metrics():
-    for src in ['BTCUSDT', 'BNBUSDT', 'ETHUSDT']:
+    for src in ['BTCUSDT']:
         print(src + ' BOOLEAN')
-        df = pd.read_csv('data/processed/MLP_BOOL_'+src+'.csv')[
+        df = pd.read_csv('data/processed/LSTM_BOOL_'+src+'.csv')[
             ['open', 'high', 'low', 'close', 'volume', 'timestamp', 'pred_boolean', 'profit_boolean']]
+        df['pred_boolean'] = df['pred_boolean'].apply(lambda x: round(x, 0))
         print(metrics.classification_report_boolean(df))
         print("accuracy", metrics.accuracy_boolean(df))
         print("total profit", metrics.total_profit_boolean(df))
@@ -103,10 +102,11 @@ def generate_test_graphs():
 if __name__ == '__main__':
     inicio = time.time()
 
-    generate_test_graphs()
-    # continuo_metrics()
-    # boolean_metrics()
-
+    # run the strategies over database and generate the graphs for test and prediction
+    # generate_test_graphs()
+    continuo_metrics()
+    boolean_metrics()
+    # run_random_strategy()
 
     # a = abs(359.83-1312.55)/359.83 + abs(1312.45-2706.15)/1312.45 + abs(2706.15-3000.61)/2706.15 + \
     #     abs(3000.62-2686.94)/3000.62 + abs(2686.94-1941.90)/2686.94 + abs(1941.90-1328.72)/1941.90
