@@ -4,6 +4,7 @@ from tensorflow import keras
 import pandas as pd
 import numpy as np
 import tensorflow as tf
+import sys
 
 
 # decaimento de learning rate
@@ -20,7 +21,7 @@ callbacklr = tf.keras.callbacks.LearningRateScheduler(scheduler)
 class LSTMStrategyService:
     def __init__(self):
         self.time_steps = 2
-        self.last = 10000000
+        self.last = self.last = sys.maxsize
         seed(1)
 
     def run_bool(self, data):

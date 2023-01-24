@@ -50,12 +50,11 @@ class ARIMAStrategyService:
         df['target'] = df['close'].shift(-1) > df['open'].shift(-1)
         return df
 
-    def test(self, data):
+    def test(self, data, cripto):
         df = pd.DataFrame(data, columns=["open", "close", "low", "high", "volume", "timestamp"])
-        # df = self.preprocess(df)
         df_x = df['close']
-        treino = df.iloc[:int(df_x.shape[0]*0.7)]
-        teste = df.iloc[int(df_x.shape[0]*0.7):]
+        treino = df.iloc[:int(df_x.shape[0]*0.8)]
+        teste = df.iloc[int(df_x.shape[0]*0.8):]
         result = auto_arima(treino["close"],  start_p=0, start_q=0,
                             max_p=3, max_q=3, m=1,
                             test='adf',
@@ -63,18 +62,17 @@ class ARIMAStrategyService:
                             start_P=0,
                             D=0,
                             d=None, trace=True,
-                            error_action='ignore',   # we don't want to know if an order does not work
-                            suppress_warnings=True,  # we don't want convergence warnings
+                            error_action='ignore',
+                            suppress_warnings=True,
                             stepwise=True)
-        # print(result.summary())
-        # result.plot_diagnostics(figsize=(15, 8))
+
         model = ARIMA(treino["close"], order=result.order).fit()
         other = model.forecast()
         pred = model.predict(start=len(treino), end=len(treino)+len(teste)-1, dynamic=False, typ='levels').rename('Previsões ARIMA')
         treino['close'].plot(legend=True, label='Treino')
         teste['close'].plot(legend=True, label='Teste')
         pred.plot(legend=True, figsize=(8, 6))
-        plt.show()
-        return 1
+        plt.savefig('data/plots/graph_pred_arima_' + cripto + '.png')
+        plt.clf()
 
 service = ARIMAStrategyService()

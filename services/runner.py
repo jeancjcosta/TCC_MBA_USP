@@ -28,7 +28,7 @@ class Runner():
     def run_mlp_test(self, candles, cripto):
         return service_mlp.test(candles, cripto)
 
-    def run_arima_test(self, candles):
-        return service_arima.test(candles)
+    def run_arima_test(self, candles, cripto):
+        return service_arima.test(candles, cripto)
 
 runner = Runner()
